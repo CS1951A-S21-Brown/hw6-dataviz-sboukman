@@ -10,3 +10,43 @@
 }
 
 /* Include any custom CSS styling here! */
+
+.country { 
+	fill: #eee
+	stroke: #999;
+}
+
+.center {
+
+	text-align: center;
+
+}
+
+.col-lg-6 {
+
+	text-align: center;
+
+}
+
+svg {
+	display: inline-block;
+	margin: auto;
+}
+
+.row {
+
+	text-align: center;
+
+}
+
+#tooltip{
+	visibility: hidden;
+	height: auto;
+	width: auto;
+	text-align: center;
+}
+
+.written{
+	max-width: 650px;
+	margin-left: 450px;
+}

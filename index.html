@@ -1,28 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
         <meta charset="utf-8">
         <title>Assignment 6 &laquo; Data Visualization Dashboard&raquo;</title>
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css">
         <link rel="stylesheet" href="main.css"/>
-        <!--Feel free to add more CSS files as needed-->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
         <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
+	<script src="https://d3js.org/topojson.v1.min.js"></script>
+	<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     </head>
-<body>
+    <body>
+
     <div class="header">
-        <h3>Assignment 6 &laquo; Data Visualization Dashboard &raquo;</h3>
+        <h3>International Football Results &#9917</h3>
+        <h5>Exploring the Metrics of Football Data from the Past Two Decades</h5>
     </div>
-    <!--  We included a basic HTML structure for the 3 graphs here. Feel free to change this if you'd like  -->
+
+  
+
     <div class="row">
-        <div class="col-lg-6">
-            <div id="graph1"></div>
-            <div id="graph2"></div><br/>
-        </div>
-        <div class="col-lg-6">
-            <div id="graph3"></div>
-        </div>
+        
+            <div id="barplot"></div>
+           
+            
+            <div id="scatter"></div><br/>
+            <div class="center">
+	<button type="button" class="btn btn-info" onclick="setData('Belgium')">Belgium</button>
+	<button type="button" class="btn btn-info" onclick="setData('Germany')">Germany</button>
+	<button type="button" class="btn btn-info" onclick="setData('France')">France</button>
+	<button type="button" class="btn btn-info" onclick="setData('Netherlands')">Netherlands</button>
+	<button type="button" class="btn btn-info" onclick="setData('Spain')">Spain</button>
+	<button type="button" class="btn btn-info" onclick="setData('Brazil')">Brazil</button>
+	<button type="button" class="btn btn-info" onclick="setData('Iran')">Iran</button>
+	<button type="button" class="btn btn-info" onclick="setData('Portugal')">Portugal</button>
+	<button type="button" class="btn btn-info" onclick="setData('Japan')">Japan</button>
+	<button type="button" class="btn btn-info" onclick="setData('Switzerland')">Switzerland</button>
+	<p style="font-size: 10px;">*The above buttons are in order of top performing country based off points.</p>
+                           
+    	    </div>
+	    <div id="mapTitle"></div>
+           <div id="tooltip"></div>
+            <div id="worldmap"></div>
+        <p style="font-size: 10px;">*Top ten most winning countries are denoted in blue. Hover over each country to see their win ratio!</p>
+        <div class='written'><p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Describe how your dashboard answers the questions presented. You don&apos;t have to address every question directly, but should at a high level address the main questions. (10 points)</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:8pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:#ffffff;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">International Football Results</span><span style="font-size:10.5pt;font-family:Arial;color:#428bca;background-color:#ffffff;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;</span><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Questions:</span></p>
+<ol style="margin-top:0;margin-bottom:0;padding-inline-start:48px;">
+    <li dir="ltr" style="list-style-type:decimal;font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;">
+        <p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Your boss wants to know the number of football games by year. You should show at minimum 5 years, but you can choose which years to show.</span></p>
+    </li>
+</ol>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-My first visualization shown is a bar plot that displays the number of games from 2015 to 2020. I did this by grouping data by year and summing each occurrence of a game in a given year (the preprocessing of the data can be found in make_csv.py in the data folder. &nbsp;The height of the bars represent the given amount of games for the year denoted on the x-axis.&nbsp;</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<ol start="2" style="margin-top:0;margin-bottom:0;padding-inline-start:48px;">
+    <li dir="ltr" style="list-style-type:decimal;font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;">
+        <p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Your boss wants to understand the top winning nations. We would like to see a winning percentage for the top 10 nations. You can show this in a map form if you would like to.</span></p>
+    </li>
+</ol>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-My third visualization displays a world map in which the top ten most winning nations are denoted in blue. If you hover your cursor over a given country it&rsquo;s winning ratio will be displayed to the left of the map if there is data on it. To calculate the &ldquo;winning ratio&rdquo; statistic I took the number of wins divided by the number of games and multiplied it my the number of games divided by the number of games divided by the number of games plus ten ((num_wins / num_games) * (num_games / (num_games + 10))). I do this to essentially penalize teams that played smaller amounts of games. I implemented this using the d3-geo-projection library and d3-topo-jason map dataset to draw out the map. Since the map data and the winning ratio data were separate, while creating the map I also had read in the latter csv to specify fill.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<ol start="3" style="margin-top:0;margin-bottom:0;padding-inline-start:48px;">
+    <li dir="ltr" style="list-style-type:decimal;font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;">
+        <p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Lastly, we are trying to bet on which team will win the world cup 2022. Over the last 2 world cups, which teams were top performing. You can decide how to interpret &quot;top performing&quot;. A few approaches we would recommend: winning percentage in the world cup, victory strength, strength of opponent. You may show any combination of those. We don&apos;t have a specific answer we expect, and you should explain your choice in the written questions.</span></p>
+    </li>
+</ol>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-I interpreted top performing the same way FIFA does itself, the Elo rating system. After each game points are added to or subtracted from a team&apos;s rating according to the formula: P = P_before + I(W-W_e) where P is equal to the current amount of points P_before is the team&rsquo;s previous amount of points, I is the importance coefficient for the game (25 for FIFA World Cup qualification matches, 50 for FIFA World Cup matches before the quarter finals, and 60 for World Cup matches after the quarter finals). I aggregated the amount of points for each team in the dataset who partook in the past two world cups and qualification and then represented the point progression of each team in a separate connected scatter plot. The plot for the countries within the top ten amount of points can be shown when clicking the button with the country name denoted. The processing of data to get the aggregate points over time can be seen in the make_csv.py file.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">List 3 reasons why D3 was helpful and improved your visualization (6 points)</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-D3 gives a lot of control on exactly where and how you want to place and color of items</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-D3 allows for dynamic plots which can really help display data in a more accessible and cleaner fashion.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-There are a lot of different ways to implement similar things with d3 so if one way doesn&rsquo;t make the most sense to an individual there is usually another way to do it that is much simpler, d3 is really as hard as the individual wants to make it</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">List 3 reasons why D3 would not be the best tool for creating a visualization (6 points)</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-Creating very basic plots can amount to a lot of lines of code.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-There is not much documentation on the latest library so if you want to expand on the complexity of your visualizations it takes a lot of time and effort.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-Data processing is a pain in Javascript, so you most likely need to implement preprocessing in a different language.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Accessible Data Visualization</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Evaluate the accessibility of your dashboard based on the readings in the &ldquo;Before you begin&rdquo; section. What kinds of users might find this dashboard accessible and who might have more difficulty? What additional actions might you take to make this dashboard more accessible to all audiences? Your response should refer to at least one of the readings and be about 1 paragraph.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Some users who may find my dashboard accessible are those who have good eyesight and those who do not suffer from certain forms of epilepsy. However for those who have poor eyesight or are blind, have no mouse and have to navigate the site with a keyboard, who speak a different language,or those with certain forms of epilepsy may have more difficulty. From reading &ldquo;A Comprehensive Guide to Accessible Data Visualization&rdquo;, I learned that screen readers can be used to help assist people who are blind navigate the site. I also could enlarge my text so users with impaired vision can see it better, add a translation module to my page, and maybe slow down the transitions of my dynamic aspects.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Reflect on the stages of your design and implementation process when you could have taken steps to make your dashboard more accessible to all audiences. What are some factors that kept you from taking these steps? (a few sentences)</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Some steps I could have taken to make my dashboard more accessible would be to make my tooltip text larger and also add counts to the last dot on the continuous scatter point so people could actually see how many points the countries shown end up with. The main factors that kept me from taking these steps were time and rigor of execution. My connected scatterplot is dynamic so I had a lot of trouble getting the old counts to be removed from the plot before I had to turn it in.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;">&nbsp;</p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">You implement some form of dynamic stats calculation. By dynamic, we mean that it updates depending on which data is being shown. Our example dashboard calculates a regression line, but you can show box plot whiskers, calculate percentiles, calculate a t-test. If you choose to add this, please add a note below your dashboard and written answers which in 1-3 sentences explains what you did and why it&apos;s statistical. (10 points)</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-I implemented FIFA&rsquo;s Elo rating system that is currently used to rank teams as stated above. I first calculated the top ten performing teams of the past two World Cups and then tracked their points progression over time. You can see this dynamically update by clicking the button that denotes each country</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:0pt;padding:0pt 0pt 8pt 0pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">*For some of the provided data sets and questions, we ask about geographic impact. One way to show this is with a bar/scatter/line graph. Another possibility is to show this on a geographic map! If one of your graphs is a &quot;Map type&quot; (https://www.d3-graph-gallery.com/) you earn an additional 10 points.</span></p>
+<p dir="ltr" style="line-height:1.38;background-color:#ffffff;margin-top:0pt;margin-bottom:8pt;"><span style="font-size:10.5pt;font-family:Arial;color:#333333;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">-As stated above my third data visualization is a world map with the countries with the top ten highest winning percentages denoted in blue.&nbsp;</span></p> </div> 
+	
     </div>
-    <!--Feel free to add more JavaScript files as needed-->
     <script type="text/javascript" src="main.js"></script>
-</body>
+    
+    </body>
 </html>
